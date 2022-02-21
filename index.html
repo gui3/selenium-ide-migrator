@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selenium IDE migrator</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="section">
+        <h1>Selenium IDE Migrator v2 -> v3</h1>
+        <p>version 0.0.1</p>
+        <p>
+            Migrate your scenarios from selenium IDE v2
+            to selenium IDE v3
+        </p>
+    </div>
+
+    <div class="section" id="scenario2section">
+        <h2>give HTML IDEv2 scenario here</h2>
+        
+        <h3>UPLOAD scenario file :</h3>
+        <input type="file" id="v2-file" name="v2-file" 
+        onchange="javascript:inputFromFile(this)"
+        />
+
+        <h3>or PASTE raw script:</h3>
+        <textarea name="scenario2" id="scenario2"
+        oninput="javascript:inputFromTextarea(this)"
+        class="code script">
+</textarea>
+    </div>
+
+    <div class="section" id="scenario3section">
+        <h2>get JSON IDEv3 scenario here</h2>
+
+        <h3>DOWNLOAD .side :</h3>
+        <label for="side-name">
+            name (<strong>without .side extension</strong>):
+        </label>
+        <input type="text" id="side-name" name="side-name" value="migrated"/>
+
+        <button
+        onclick="javascript:getSideFile(this)">
+            GENERATE
+        </button>
+        <button
+        onclick="javascript:clearFiles(this)">
+            clear files
+        </button>
+        <div id="side-downloads">
+        </div>
+
+        <h3>or COPY raw script:</h3>
+        <pre id="scenario3"
+        class="code script"></pre>
+    </div>
+
+    <div class="section" id="scenario2preview">
+        <h2>v2 HTML preview :</h2>
+        <button 
+        onclick="javascript:togglePreview(this)">
+            Show / hide
+        </button>
+
+        <div class="preview script" id="preview"></div>
+    </div>
+
+    <div class="footer">
+        <p>creator: gui3 - gui.silvent@gmail.com</p>
+    </div>
+
+</body>
+<script src="index.js"></script>
+<script>
+function togglePreview (button) {
+    const preview = document.getElementById('preview');
+
+    if (preview.classList.contains('hidden')) {
+        preview.classList.remove('hidden');
+    }
+    else {
+        preview.classList.add('hidden');
+    }
+}
+
+function parseToSide (v2script) {
+    const sideObject = {};
+
+    const stringified = JSON.stringify(sideObject);
+
+    let result = '&lt;invalid input&gt;';
+
+    console.log(result)
+
+    return result;
+}
+
+function inputFromFile (input) {
+    const file = input.files.item(0);
+
+    const reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = function () {
+        inputScenario(reader.result);
+    }
+}
+
+function inputFromTextarea(textarea) {
+    const script = textarea.value
+    .replace(/<(\/)?script[^>]*>?/gi, 'NO-SCRIPT-ALLOWED!!');
+    //.split(/<(\/)?body[^>]*>/)[1]
+
+    inputScenario(script);
+}
+
+function inputScenario (script) {
+    // input
+    document.getElementById('scenario2')
+    .value = script;
+
+    // preview
+    document.getElementById('preview')
+    .innerHTML = script;
+
+    // result
+    const result = parseToSide(script);
+
+    document.getElementById('scenario3')
+    .innerHTML = result;
+}
+
+function getSideFile (button) {
+    const sideScript = document.getElementById('scenario3')
+    .innerText;
+
+    let sideName = document.getElementById('side-name')
+    .value;
+
+    sideName += '.side'
+
+    const downloads = document.getElementById('side-downloads')
+
+    if (sideScript.length > 0 && sideName.length > 0) {
+        var link = document.createElement('a');
+        link.setAttribute(
+            'href', 
+            'data:text/plain;charset=utf-8,' 
+            + encodeURIComponent(sideScript)
+        );
+        link.setAttribute('download', sideName);
+        link.appendChild(document.createTextNode(sideName));
+        link.title = sideScript;
+
+
+        const date = new Date()
+        downloads.appendChild(document.createTextNode(
+            date.toISOString() + ' : '
+        ));
+        downloads.appendChild(link);
+        downloads.appendChild(document.createElement('br'));
+    }
+    else {
+        downloads.appendChild(document.createTextNode('no data or no filename'));
+        downloads.appendChild(document.createElement('br'));
+    }
+}
+
+function clearFiles (button) {
+    const files = document.getElementById('side-downloads')
+
+    while(files.firstChild) {
+        files.removeChild(files.firstChild)
+    }
+}
+</script>
+</html>

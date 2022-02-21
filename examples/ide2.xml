@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="selenium.base" href="https://www.alc.ca" />
+    <title>Proline Stadium - Bet Card</title>
+</head>
+
+<body>
+    <table cellpadding="1" cellspacing="1" border="1">
+        <thead>
+            <tr>
+                <td rowspan="1" colspan="3">Proline Stadium - Bet Card - Login</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>open</td>
+                <td>/content/proline-stadium/en.html</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>//body[@id='page-en']/header/div[5]/div</td>
+                <td>60,8</td>
+            </tr>
+            <tr>
+                <td>type</td>
+                <td>id=exampleInputEmail1</td>
+                <td>someone@email.com</td>
+            </tr>
+            <tr>
+                <td>type</td>
+                <td>id=exampleInputPassword1</td>
+                <td>**********</td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>id=login-submit-btn</td>
+                <td>38,32</td>
+            </tr>
+        </tbody>
+    </table>
+    <table cellpadding="1" cellspacing="1" border="1">
+        <thead>
+            <tr>
+                <td rowspan="1" colspan="3">Proline Stadium - Bet Card - Login+ Pay at retail Proline Wager </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>open</td>
+                <td>/content/proline-stadium/en.html</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>//a[contains(text(),'Make your picks')]</td>
+                <td>109,21</td>
+            </tr>
+            <tr>
+                <td>selectFrame</td>
+                <td>index=0</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>id=Seln_173179_1499436</td>
+                <td>114,8</td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>id=Seln_173180_1499448</td>
+                <td>107,18</td>
+            </tr>
+            <tr>
+                <td>mouseOver</td>
+                <td>id=Seln_173180_1499449</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>id=Seln_173322_1501254</td>
+                <td>116,-83</td>
+            </tr>
+            <tr>
+                <td>mouseOver</td>
+                <td>id=Seln_173322_1501256</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>mouseOut</td>
+                <td>id=Seln_173322_1501256</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>id=Seln_173326_1501299</td>
+                <td>106,-279</td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>id=Seln_173326_1501299</td>
+                <td>112,-277</td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>//a[contains(text(),'Pay at Retail')]</td>
+                <td>80,-379</td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>//a[contains(text(),'Scan at retail')]</td>
+                <td>95,32</td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>xpath=(//button[@onclick='SlipQueue.toggle_game_details();'])[3]</td>
+                <td>70,19</td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>xpath=(//button[@onclick='SlipQueue.toggle_game_details();'])[4]</td>
+                <td>64,19</td>
+            </tr>
+        </tbody>
+    </table>
+    <table cellpadding="1" cellspacing="1" border="1">
+        <thead>
+            <tr>
+                <td rowspan="1" colspan="3">Proline Stadium - Bet Card - Login Checkout Proline Wager</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>open</td>
+                <td>/content/proline-stadium/en.html</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>//a[contains(text(),'Make your picks')]</td>
+                <td>142,28</td>
+            </tr>
+            <tr>
+                <td>selectFrame</td>
+                <td>index=0</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>id=Seln_173180_1499447</td>
+                <td>37,15</td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>id=Seln_173179_1499434</td>
+                <td>49,11</td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>//a[contains(text(),'Checkout')]</td>
+                <td>103,25</td>
+            </tr>
+            <tr>
+                <td>clickAt</td>
+                <td>//a[contains(text(),'Confirm checkout')]</td>
+                <td>216,-166</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
