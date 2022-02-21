@@ -1,0 +1,183 @@
+{
+  "name": "Proline Stadium - Bet Card",
+  "base": "https://www.alc.ca/",
+  "tests": [
+    {
+      "name": "Proline Stadium - Bet Card - Login",
+      "commands": [
+        {
+          "comment": "",
+          "command": "open",
+          "target": "/content/proline-stadium/en.html",
+          "value": ""
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "//body[@id='page-en']/header/div[5]/div",
+          "value": "60,8"
+        },
+        {
+          "comment": "",
+          "command": "type",
+          "target": "id=exampleInputEmail1",
+          "value": "someone@email.com"
+        },
+        {
+          "comment": "",
+          "command": "type",
+          "target": "id=exampleInputPassword1",
+          "value": "**********"
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "id=login-submit-btn",
+          "value": "38,32"
+        }
+      ]
+    },
+    {
+      "name": "Proline Stadium - Bet Card - Login+ Pay at retail Proline Wager",
+      "commands": [
+        {
+          "comment": "",
+          "command": "open",
+          "target": "/content/proline-stadium/en.html",
+          "value": ""
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "//a[contains(text(),'Make your picks')]",
+          "value": "109,21"
+        },
+        {
+          "comment": "",
+          "command": "selectFrame",
+          "target": "index=0",
+          "value": ""
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "id=Seln_173179_1499436",
+          "value": "114,8"
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "id=Seln_173180_1499448",
+          "value": "107,18"
+        },
+        {
+          "comment": "",
+          "command": "mouseOver",
+          "target": "id=Seln_173180_1499449",
+          "value": ""
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "id=Seln_173322_1501254",
+          "value": "116,-83"
+        },
+        {
+          "comment": "",
+          "command": "mouseOver",
+          "target": "id=Seln_173322_1501256",
+          "value": ""
+        },
+        {
+          "comment": "",
+          "command": "mouseOut",
+          "target": "id=Seln_173322_1501256",
+          "value": ""
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "id=Seln_173326_1501299",
+          "value": "106,-279"
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "id=Seln_173326_1501299",
+          "value": "112,-277"
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "//a[contains(text(),'Pay at Retail')]",
+          "value": "80,-379"
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "//a[contains(text(),'Scan at retail')]",
+          "value": "95,32"
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "xpath=(//button[@onclick='SlipQueue.toggle_game_details();'])[3]",
+          "value": "70,19"
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "xpath=(//button[@onclick='SlipQueue.toggle_game_details();'])[4]",
+          "value": "64,19"
+        }
+      ]
+    },
+    {
+      "name": "Proline Stadium - Bet Card - Login Checkout Proline Wager",
+      "commands": [
+        {
+          "comment": "",
+          "command": "open",
+          "target": "/content/proline-stadium/en.html",
+          "value": ""
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "//a[contains(text(),'Make your picks')]",
+          "value": "142,28"
+        },
+        {
+          "comment": "",
+          "command": "selectFrame",
+          "target": "index=0",
+          "value": ""
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "id=Seln_173180_1499447",
+          "value": "37,15"
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "id=Seln_173179_1499434",
+          "value": "49,11"
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "//a[contains(text(),'Checkout')]",
+          "value": "103,25"
+        },
+        {
+          "comment": "",
+          "command": "clickAt",
+          "target": "//a[contains(text(),'Confirm checkout')]",
+          "value": "216,-166"
+        }
+      ]
+    }
+  ]
+}

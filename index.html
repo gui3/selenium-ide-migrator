@@ -64,7 +64,7 @@
             Show / hide
         </button>
 
-        <div class="preview script" id="preview"></div>
+        <iframe class="preview script" id="preview"></iframe>
     </div>
 
     <div class="footer">
@@ -72,7 +72,6 @@
     </div>
 
 </body>
-<script src="index.js"></script>
 <script>
 function togglePreview (button) {
     const preview = document.getElementById('preview');
@@ -85,14 +84,75 @@ function togglePreview (button) {
     }
 }
 
-function parseToSide (v2script) {
-    const sideObject = {};
+function getIframeDocument (iframe) {
+    var doc = iframe.document; 
+    if(iframe.contentDocument) {
+        doc = iframe.contentDocument; 
+        // For NS6 
+    }
+    else if(iframe.contentWindow) {
+        doc = iframe.contentWindow.document; 
+        // For IE5.5 and IE6 
+        // Put the content in the iframe 
+    }
 
-    const stringified = JSON.stringify(sideObject);
+    return doc;
+}
 
-    let result = '&lt;invalid input&gt;';
+function parseToSide (v2script, iframe) {
 
-    console.log(result)
+    const doc = getIframeDocument(iframe);
+
+    const sideObject = {
+        name: doc.title
+    };
+
+    // base url -----------------
+    const links = doc.getElementsByTagName('link');
+    for (var i = 0; i < links.length; i++) {
+        if (links[i].ref = 'selenium.base') {
+            sideObject.base = links[i].href;
+        }
+        break;
+    }
+
+    // tests---------------------
+    sideObject.tests = [];
+
+    const tables = doc.getElementsByTagName('table');
+    console.log(tables)
+    for (var t = 0; t < tables.length; t++) {
+        const table = tables[t];
+        const test = {
+            name: table.getElementsByTagName('thead')[0]
+                .getElementsByTagName('td')[0]
+                .innerText
+        };
+
+        test.commands = [];
+        const rows = table.getElementsByTagName('tbody')[0]
+        .getElementsByTagName('tr');
+
+        for (var r = 0; r < rows.length; r++) {
+            const cells = rows[r].getElementsByTagName('td')
+            const command = {
+                comment: '',
+                command: cells[0].innerText,
+                target: cells[1].innerText,
+                value: cells[2].innerText
+            }
+
+            test.commands.push(command)
+        }
+
+        sideObject.tests.push(test)
+    }
+
+    const head = doc.head;
+    console.log(head)
+
+    //let result = '&lt;invalid input&gt;';
+    let result = sideObject;
 
     return result;
 }
@@ -121,14 +181,23 @@ function inputScenario (script) {
     .value = script;
 
     // preview
-    document.getElementById('preview')
-    .innerHTML = script;
+    const iframe = document.getElementById('preview');
+    const doc = getIframeDocument(iframe)
+    doc.open(); 
+    doc.writeln(script); 
+    doc.close();
 
     // result
-    const result = parseToSide(script);
+    const result = parseToSide(script, iframe);
+
+    const resultHtmlDisplay = JSON.stringify(
+        result,
+        null,
+        2
+    ).replace('\\n', '<br/>');
 
     document.getElementById('scenario3')
-    .innerHTML = result;
+    .innerHTML =  resultHtmlDisplay;
 }
 
 function getSideFile (button) {
