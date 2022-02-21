@@ -111,7 +111,7 @@ function parseToSide (v2script, iframe) {
     const links = doc.getElementsByTagName('link');
     for (var i = 0; i < links.length; i++) {
         if (links[i].ref = 'selenium.base') {
-            sideObject.base = links[i].href;
+            sideObject.url = links[i].href;
         }
         break;
     }
