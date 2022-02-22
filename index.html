@@ -104,7 +104,7 @@ function getIframeDocument (iframe) {
     return doc;
 }
 
-function parseToSide (v2script, iframe) {
+function parseToSide (iframe) {
 
     const doc = getIframeDocument(iframe);
 
@@ -112,52 +112,62 @@ function parseToSide (v2script, iframe) {
         name: doc.title
     };
 
-    // base url -----------------
-    const links = doc.getElementsByTagName('link');
-    for (var i = 0; i < links.length; i++) {
-        if (links[i].ref = 'selenium.base') {
-            sideObject.url = links[i].href;
-        }
-        break;
-    }
-
-    // tests---------------------
-    sideObject.tests = [];
-
-    const tables = doc.getElementsByTagName('table');
-    for (var t = 0; t < tables.length; t++) {
-        const table = tables[t];
-        const test = {
-            name: table.getElementsByTagName('thead')[0]
-                .getElementsByTagName('td')[0]
-                .innerText
-        };
-
-        test.commands = [];
-        const rows = table.getElementsByTagName('tbody')[0]
-        .getElementsByTagName('tr');
-
-        for (var r = 0; r < rows.length; r++) {
-            const cells = rows[r].getElementsByTagName('td')
-            const command = {
-                comment: '',
-                command: cells[0].innerText,
-                target: cells[1].innerText,
-                value: cells[2].innerText
+    try {
+        // base url -----------------
+        const links = doc.getElementsByTagName('link');
+        for (var i = 0; i < links.length; i++) {
+            if (links[i].ref = 'selenium.base') {
+                sideObject.url = links[i].href;
             }
-
-            test.commands.push(command)
+            break;
         }
-
-        sideObject.tests.push(test)
+    
+        // tests---------------------
+        sideObject.tests = [];
+    
+        const tables = doc.getElementsByTagName('table');
+        for (var t = 0; t < tables.length; t++) {
+            const table = tables[t];
+            const test = {
+                name: table.getElementsByTagName('thead')[0]
+                    .getElementsByTagName('td')[0]
+                    .innerText
+            };
+    
+            test.commands = [];
+            const rows = table.getElementsByTagName('tbody')[0]
+            .getElementsByTagName('tr');
+    
+            for (var r = 0; r < rows.length; r++) {
+                const cells = rows[r].getElementsByTagName('td')
+                const command = {
+                    comment: '',
+                    command: cells[0].innerText,
+                    target: cells[1].innerText,
+                    value: cells[2].innerText
+                }
+    
+                test.commands.push(command)
+            }
+    
+            sideObject.tests.push(test)
+        }
+        if (
+            !sideObject.url
+            && sideObject.tests.length === 0
+        ) {
+            throw new Error('no selenium data found')
+        }
+    }
+    catch (err) {
+        sideObject.ERROR = {
+            type: '<invalid selenium file input>',
+            message: err.message,
+            stack: err.stack
+        };
     }
 
-    const head = doc.head;
-
-    //let result = '&lt;invalid input&gt;';
-    let result = sideObject;
-
-    return result;
+    return sideObject;
 }
 
 function inputFromFile (input) {
@@ -219,7 +229,7 @@ function inputScenario (script) {
     doc.close();
 
     // result
-    const result = parseToSide(script, iframe);
+    const result = parseToSide(iframe);
 
     const resultHtmlDisplay = JSON.stringify(
         result,
