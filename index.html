@@ -21,9 +21,14 @@
         <h2>give HTML IDEv2 scenario here</h2>
         
         <h3>UPLOAD scenario file :</h3>
-        <input type="file" id="v2-file" name="v2-file" 
-        onchange="javascript:inputFromFile(this)"
-        />
+        <label for="v2-file" class="button">
+            <input type="file" id="v2-file" name="v2-file" 
+            class="hidden"
+            onchange="javascript:inputFromFile(this)"/>
+            Upload File
+        </label>
+        <span id="v2-file-name">no file loaded</span>
+        <span id="v2-file-changed"></span>
 
         <h3>or PASTE raw script:</h3>
         <textarea name="scenario2" id="scenario2"
@@ -120,7 +125,6 @@ function parseToSide (v2script, iframe) {
     sideObject.tests = [];
 
     const tables = doc.getElementsByTagName('table');
-    console.log(tables)
     for (var t = 0; t < tables.length; t++) {
         const table = tables[t];
         const test = {
@@ -149,7 +153,6 @@ function parseToSide (v2script, iframe) {
     }
 
     const head = doc.head;
-    console.log(head)
 
     //let result = '&lt;invalid input&gt;';
     let result = sideObject;
@@ -159,26 +162,54 @@ function parseToSide (v2script, iframe) {
 
 function inputFromFile (input) {
     const file = input.files.item(0);
+    input.value = null; // to allow reloading the file
 
     const reader = new FileReader();
     reader.readAsText(file);
     reader.onload = function () {
         inputScenario(reader.result);
+        
+        // input
+        document.getElementById('scenario2')
+        .value = reader.result;
+
+        clearElement(document.getElementById('v2-file-changed'))
     }
+
+    const namespan = document.getElementById('v2-file-name');
+    clearElement(namespan);
+    namespan.appendChild(document.createTextNode(
+        file.name.length > 0 ? file.name : '<no file selected>'
+    ));
+
+    document.getElementById('side-name')
+    .value = file.name.length > 0 
+    ? file.name.split('.').slice(0,-1).join('.')
+    : 'migrated';
 }
 
 function inputFromTextarea(textarea) {
-    const script = textarea.value
-    .replace(/<(\/)?script[^>]*>?/gi, 'NO-SCRIPT-ALLOWED!!');
-    //.split(/<(\/)?body[^>]*>/)[1]
+    const changespan = document.getElementById('v2-file-changed');
+    clearElement(changespan);
+    changespan.appendChild(document.createTextNode(
+        "<changed>"
+    ));
+
+    const script = textarea.value;
 
     inputScenario(script);
 }
 
+function escape (unsafeScript) {
+    const safeScript = unsafeScript
+    .replace(/<(\/)?script[^>]*>?/gi, 'NO-SCRIPT-ALLOWED!!');
+    //.split(/<(\/)?body[^>]*>/)[1]
+
+    return safeScript;
+}
+
 function inputScenario (script) {
-    // input
-    document.getElementById('scenario2')
-    .value = script;
+    script = escape(script);
 
     // preview
     const iframe = document.getElementById('preview');
@@ -196,8 +227,29 @@ function inputScenario (script) {
         2
     ).replace('\\n', '<br/>');
 
-    document.getElementById('scenario3')
-    .innerHTML =  resultHtmlDisplay;
+    const v3section = document.getElementById('scenario3');
+    clearElement(v3section);
+    v3section.appendChild(document.createTextNode(
+        resultHtmlDisplay
+    ));
+}
+
+function makeItem (elements, parent) {
+    var filediv = document.createElement('div');
+
+    for (var i = 0; i < elements.length; i++) {
+        filediv.appendChild(elements[i])
+    }
+
+    var delbtn = document.createElement('button');
+    delbtn.appendChild(document.createTextNode('X'));
+    delbtn.onclick = function () {
+        removeItem(delbtn);
+    }
+
+    filediv.appendChild(delbtn)
+
+    parent.appendChild(filediv);
 }
 
 function getSideFile (button) {
@@ -219,29 +271,38 @@ function getSideFile (button) {
             + encodeURIComponent(sideScript)
         );
         link.setAttribute('download', sideName);
-        link.appendChild(document.createTextNode(sideName));
+        link.appendChild(document.createTextNode(
+            'DOWNLOAD: ' + sideName
+        ));
         link.title = sideScript;
 
+        const now = new Date()
+        const date = document.createTextNode(
+            now.toLocaleString() + ' : '
+        );
 
-        const date = new Date()
-        downloads.appendChild(document.createTextNode(
-            date.toISOString() + ' : '
-        ));
-        downloads.appendChild(link);
-        downloads.appendChild(document.createElement('br'));
+        makeItem([date, link], downloads)
     }
     else {
-        downloads.appendChild(document.createTextNode('no data or no filename'));
-        downloads.appendChild(document.createElement('br'));
+        makeItem([document.createTextNode('no data or no filename')], downloads);
+    }
+}
+
+function clearElement(elmt) {
+    while(elmt.firstChild) {
+        elmt.removeChild(elmt.firstChild);
     }
 }
 
 function clearFiles (button) {
-    const files = document.getElementById('side-downloads')
+    const files = document.getElementById('side-downloads');
+    clearElement(files);
+}
 
-    while(files.firstChild) {
-        files.removeChild(files.firstChild)
-    }
+function removeItem (button) {
+    button.parentNode.parentNode.removeChild(
+        button.parentNode
+    )
 }
 </script>
 </html>
